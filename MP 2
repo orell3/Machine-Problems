@@ -1,0 +1,85 @@
+//This program illustrates the computation for some elements of a triangle, given only the side.
+#include<iostream>
+#include<cmath>
+#include<math.h> 
+#include<iomanip>
+#include<conio.h>
+
+using namespace std;
+int main()
+{
+	//Declaration of variables.
+	int x1 = 0, y1 = 0;
+	double mx1, my1, mx2, my2, slope1, slope2, sb1, sb2, x2, y2, x3, y3, x, y;
+	float side1, side2, side3, isoceles, scalene, equilateral, deg;
+	float intang1, intang2, intang3, area, perimeter, apothem, circumcenter, acute, right, obtuse, semiper;
+	// Let's user enter desired values for each side of triangle.
+	cout << "Enter the first side of the triangle : "; cin >> side1;
+	cout << "Enter the second side of the triangle : "; cin >> side2;
+	cout << "Enter the third side of the triangle : "; cin >> side3;
+	cout << fixed << showpoint << setprecision(2);
+	// For checking of triangle inequality.
+	if (side1 + side2 > side3 && side1 + side3 > side2 && side2 + side3 > side1)
+	{
+	// To find interior angles.
+	deg = (180/3.141592654); // to convert to degree measure.
+	intang1 = (acos ((pow (side2, 2) + pow(side3, 2) - pow(side1, 2)) / (2 * (side2 * side3)))) * deg;
+	intang2 = (acos ((pow (side1, 2) + pow(side3, 2) - pow(side2, 2)) / (2 * (side1 * side3)))) * deg;
+	intang3 = (acos ((pow (side2, 2) + pow(side1, 2) - pow(side3, 2)) / (2 * (side2 * side1)))) * deg;
+	cout << "The interior angles in degrees are: " << intang1 << ", " << intang2 << " and " << intang3 << endl;;
+	// To determine if triangle is equilateral, isoceles, or scalene.
+	if (side1 == side2 && side2 == side3 && side1 == side3) // because equilateral has three equal sides.
+		cout << "The triangle is EQUILATERAL." << endl;
+	else if (side1 == side2 || side1 == side3 || side2 == side3) // because isoceles only has two equal sides.
+		cout << "The triangle is ISOCELES." << endl;
+	else // no equal sides.
+		cout << "The triangle is SCALENE." << endl;
+	// To compute for perimeter.
+	perimeter = side1 + side2 + side3;
+	cout << "The perimeter is: " << perimeter << endl;
+	// To compute for area, use heron's law. 
+	semiper = perimeter / 2; // get semi-perimeter first.
+	area = sqrt(semiper*(semiper - side1)*(semiper - side2)*(semiper - side3));
+	cout << "The area is: " << area << endl;
+	//To determine if right, acute, or obtuse.
+	if (intang1 > 90 || intang2 > 90 || intang3 > 90)
+		cout << "The triangle is an OBTUSE triangle." << endl;
+	else if (intang1 == 90 || intang2 == 90 || intang3 == 90)
+		cout << "The triangle is a RIGHT triangle." << endl;
+	else 
+		cout << "The triangle is an ACUTE triangle." << endl;
+	//To compute for apothem.
+	if (side1 == side2 && side2 == side3 && side1 == side3) //Apothem can only be solved if traingle is equilateral.
+	{ apothem = (2 * area) / perimeter;
+	cout << "Apothem is: " << apothem << endl;}
+	else
+		cout << "The triangle is not equilateral. There is no apothem." << endl;
+	//To compute for circumcenter.
+	//computing for coordinates (x2, y2) and (x3, y3)
+	x2 = side1 * cos (intang1);
+	y2 = side1 * sin (intang1);
+	x3 = x2 + (side3 * cos (intang2));
+	y3 = y2 - (side3 * sin (intang2));
+	//midpoint of sides 1
+	mx1 = (x1 + x2) / 2;
+	my1 = (y1 + y2) / 2;
+	//midpoint of side 3
+	mx2 = (x1 + x3) / 2;
+	my2 = (y1 + y3) / 2;
+	//slope of side 1 and side 3
+	slope1 = (y2 - y1) / (x2 - x1);
+	slope2 = (y3 - y1) / (x3 - x1);
+	//slope of the bisectors 1 and 3
+	sb1 = -1 / slope1;
+	sb2 = -1 / slope2;
+	//equation of 2 lines
+	y = ((((sb1 * sb2 * mx2) - (sb1 * my2)) / sb2) - (sb1 * mx1) + my1) / (1 - (sb1 / sb2));
+	x = (y - my2 + (sb2 * mx2)) / sb2;
+	cout << "The coordinates of the triangle are (" << fixed << setprecision(2) << x1 << "," << fixed << setprecision(2) << y1 << "), " << " (" << fixed << setprecision(2) << x2 << "," << fixed << setprecision(2) << y2 << ")," << " and (" << fixed << setprecision(2) << x3 << "," << fixed << setprecision(2) << y3 << "). "  << endl;
+	cout << "The circumcenter is located at point (" << fixed << setprecision(3) << x << ", " << fixed << setprecision(3) << y << ")." << endl;
+	}
+	else 
+		cout << "TRIANGLE INEQUALITY!!! Given sides are not valid.";
+	_getch();
+	return 0;
+}  
