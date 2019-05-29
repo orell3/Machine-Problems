@@ -1,0 +1,126 @@
+#include <iostream>
+#include <conio.h>
+#include <iomanip>
+#include <string>
+#include <cmath>
+
+using namespace std;
+int main()
+{
+	//Declaration of variables.
+	string name[50]; // string array 50 rows, 100 collumns.
+	float quiz[50][9], pretest[50][9], probset[50][3], prelims[50], finals[50];
+	int i, j, temp; //variable declaration for loops of arrays.
+	float rawgrade[50], act, quizzes, pretests, problemsets, GPA;
+	
+	cout << fixed << showpoint << setprecision(2); // set all decimal places to 2.
+	
+	cout << "\t\t\tCLASSROOM MANAGEMENT SOFTWARE" << endl;
+	cout << "Enter Name of Students" << endl;
+	for (i = 0; i < 50; i++) // lets user input all names first.
+	{						// input 50 times.
+		cout << "Student " << i << ": "; getline(cin, name[i]); //to enter fullname, use getline.
+	}
+	cout << "\nEnter Scores of Students:" << endl;
+	for (i = 0; i < 50; i++) // lets user input scores.
+	{						//inputs scores 50 times.
+		cout << "\nShort Quizzes of Student " << i << endl;
+		quizzes = 0;
+		for (j = 0; j < 9; j++) // nine scaores for quiz.
+		{
+			cout << ""; cin >> quiz[i][j];
+			quizzes = quizzes + quiz[i][j]; // to compute for quiz grade.
+		}
+		cout << "\nPre-Tests of Student " << i << endl;
+		pretests = 0;
+		for (j = 0; j < 9; j++) //9 pre-test score.
+		{
+			cout << ""; cin >> pretest[i][j];
+			pretests = pretests + pretest[i][j]; // to compute for pre-test grade.
+		}
+		cout << "\nProblem Sets of Student " << i << endl;
+		problemsets = 0;
+		for (j = 0; j < 3; j++) //3 prob set scores.
+		{
+			cout << ""; cin >> probset[i][j];
+			problemsets = problemsets + probset[i][j]; // to compute for probset grade.
+		}
+		cout << "\nPrelim Examination of Student " << i << ": "; cin >> prelims[i]; // to input prelims score.
+		cout << "Final Examinations of Student " << i << ": "; cin >> finals[i]; // to input finals score.
+		// all formulas.
+		act = pretests + problemsets; // to compute for activity grade, overall.
+		rawgrade[i] = (quizzes / 450) * 30 + (act / 1350) * 15 + (prelims[i] / 100) * 25 + (finals[i] / 100) * 30; // to compute for rawgrade.
+		cout << "\nFinal Raw Grade of Student" << i << "= " << rawgrade[i] << endl; //declare final rawgrade.
+		if (rawgrade[i] >= 95.57 && rawgrade[i] <= 100) // use if-else to determine gpa.
+		{
+			GPA = 1.00;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Passed." <<endl;
+		}
+		else if (rawgrade[i] >= 91.12 && rawgrade[i] <= 95.56)
+		{
+			GPA = 1.25;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Passed." <<endl;
+		}
+		else if (rawgrade[i] >= 86.68 && rawgrade[i] <= 91.11)
+		{
+			GPA = 1.50;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Passed." <<endl;
+		}
+		else if (rawgrade[i] >= 82.23 && rawgrade[i] <= 86.67)
+		{
+			GPA = 1.75;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Passed." <<endl;
+		}
+		else if (rawgrade[i] >= 77.79 && rawgrade[i] <= 82.22)
+		{
+			GPA = 2.00;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Passed." <<endl;
+		}
+		else if (rawgrade[i] >= 73.34 && rawgrade[i] <= 77.78)
+		{
+			GPA = 2.25;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Passed." <<endl;
+		}
+		else if (rawgrade[i] >= 68.90 && rawgrade[i] <= 73.33)
+		{
+			GPA = 2.50;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Passed." <<endl;
+		}
+		else if (rawgrade[i] >= 64.45 && rawgrade[i] <= 68.89)
+		{
+			GPA = 2.75;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Passed." <<endl;
+		}
+		else if (rawgrade[i] >= 60.00 && rawgrade[i] <= 64.44)
+		{
+			GPA = 3.00;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Passed." <<endl;
+		}
+		else
+		{
+			GPA = 5.00;
+			cout << "Grade Point Average (GPA) of Student" << i << "= " << GPA << "; Failed." <<endl;
+		}
+	}
+	for(i=0; i<50; i++)// for loop for top students.
+	{					//selection sort to arrange rawgrades from highest to lowest.
+		for(j=0; j<50; j++)
+		{
+			if (rawgrade[j] < rawgrade[j+1]){
+					temp = rawgrade[j];
+					rawgrade[j] = rawgrade[j+1];
+					rawgrade[j+1] = temp;
+
+					string temporary = name[j]; //selection sort for names to arrange the same way as the rawgrade.
+					name[j] = name[j+1];
+					name[j+1] = temporary;
+				}
+			}
+		}
+
+		cout << "\n TOP 10 STUDENTS:\n"; //output top students.
+		for (i=0; i<10; i++){
+		cout << i+1 << ") " << name[i] << ": " << rawgrade[i] <<endl; } //output student name with grade.
+	_getch();
+	return 0;
+}
